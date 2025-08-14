@@ -11,6 +11,9 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
+app.get("/", (req, res) => {
+  res.send("🧑‍💻 risk Engine Ready");
+});
 
 app.use("/api/risk", riskRoutes);
 

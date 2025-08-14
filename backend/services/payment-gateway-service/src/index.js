@@ -24,6 +24,7 @@ app.get("/", (req, res) => {
   res.send("Payment Gateway Service is Live ⚙️");
 });
 
+
 app.use("/api/payments", paymentRoutes);
 app.use("/api/internal", internalRoutes);
 app.use("/api/refunds", refundRoutes);

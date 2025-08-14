@@ -18,6 +18,10 @@ app.use(express.json());
 const acquirerRoutes = require("./routes/acquirerRoutes");
 const bankRoutes= require("./routes/bankRoutes");
 
+app.get("/", (req, res) => {
+  res.send("🧑‍💻 acquirer Service Ready");
+});
+
 app.use("/api/acquirer", acquirerRoutes);
 
 app.use("/api/bank", bankRoutes);

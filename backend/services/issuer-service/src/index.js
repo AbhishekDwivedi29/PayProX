@@ -10,6 +10,10 @@ const bankRoutes = require("./routes/bankRoutes");
 dotenv.config();
 
 connectDB();
+app.get("/", (req, res) => {
+  res.send("🧑‍💻 issuer Service Ready");
+});
+
 
 const app = express();
 app.use(cors());
