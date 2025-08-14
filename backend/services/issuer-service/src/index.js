@@ -10,9 +10,7 @@ const bankRoutes = require("./routes/bankRoutes");
 dotenv.config();
 
 connectDB();
-app.get("/", (req, res) => {
-  res.send("🧑‍💻 issuer Service Ready");
-});
+
 
 
 const app = express();
@@ -21,7 +19,9 @@ app.use(helmet());
 app.use(express.json());
 
 
-
+app.get("/", (req, res) => {
+  res.send("🧑‍💻 issuer Service Ready");
+});
 app.use("/api/issuer", issuerRoutes);
 app.use("/api/bank", bankRoutes);
 
