@@ -11,13 +11,11 @@ import HomePage from "./features/home/HomePage";
 import LoginPage from "./features/merchantAuth/LoginPage";
 import RegisterPage from "./features/merchantAuth/RegisterPage";
 import DashboardPage from "./features/dashboard/Dashboard";
-
-
 // Customer pages
 import CustomerLoginPage from "./features/customerAuth/CustomerLoginPage";
 import CustomerRegisterPage from "./features/customerAuth/CustomerRegisterPage";
 // import CustomerProfile from "./features/profile/CustomerProfile";
- import CustomerDashboard from "./features/customerDashboard/Dashboard";
+ import CustomerDashboard from "./features/customerDashboard/dashboard";
  import TransactionPage from "./features/payment/Transaction";
  import ConfirmationPage from "./features/payment/ConfirmationPage";
 // import CustomerProfile from "./features/customerDashboard/CustomerProfile";
