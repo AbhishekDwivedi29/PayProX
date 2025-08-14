@@ -13,8 +13,9 @@ connectDB();
 const app = express();
 app.use(helmet());
 
+console.log(process.env.FRONTEND_URL);
 app.use(cors({
-  origin: process.env.FRONTEND_URL ,
+  origin: process.env.FRONTEND_URL,
   credentials: true,
 }));
 
