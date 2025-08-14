@@ -44,7 +44,7 @@ const createBankAccount = async (req, res) => {
     });
 
   } catch (err) {
-    console.error(" Bank Account Init Error:", err.message);
+    // console.error(" Bank Account Init Error:", err.message);
     res.status(500).json({ message: "Failed to create bank account" });
   }
 };
