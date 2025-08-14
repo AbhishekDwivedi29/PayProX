@@ -6,4 +6,18 @@
 
 # Build artifacts
 dist/
-build/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Vite logs
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Cache directories
+.cache/
+.parcel-cache/
+.nyc_output/
+coverage/
