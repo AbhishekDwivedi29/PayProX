@@ -138,13 +138,11 @@ exports.fetchCards = async (req, res) => {
 
 
     res.status(201).json({
-      message: "Card tokenized via token service",
       token: tokenRes.data.token,
-      last4: tokenRes.data.last4,
-      network: tokenRes.data.network
+      cardLast4: tokenRes.data.cardLast4,
+      cardExpiry: tokenRes.data.cardExpiry
     });
   } catch (err) {
-    // console.error("Tokenization forwarding failed:", err?.response?.data || err.message);
     res.status(500).json({ message: "Failed to tokenize card" });
   }
 };

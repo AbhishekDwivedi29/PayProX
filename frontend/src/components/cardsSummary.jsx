@@ -7,9 +7,8 @@ import { addCards } from "../features/payment/paymentApi";
 import { useCustomerAuth } from "../context/CustomerAuthContext";
 
 
-export default function CardsOverview({ cards = [] }) {
+export default function CardsOverview({ cards = [] , setCards }) {
    const {token} = useCustomerAuth();
-
      if (!Array.isArray(cards)) {
         console.error("Expected 'cards' to be an array, but received:", cards);
         return <div>Error loading cards.</div>; 
@@ -39,8 +38,9 @@ const [error , setError]= useState("");
       try {
         setAdd(false);
         const card = await addCards(cardDetails, token);
+        setCards((prev) => [...prev, { card }]);
         alert("card added");
-      } catch {
+      } catch(err){
         setError("Failed to add card.");
       }
   }

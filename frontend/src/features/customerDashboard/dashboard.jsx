@@ -132,7 +132,7 @@ export default function CustomerDashboard() {
       MainPanel = <CustomerProfilePanel />;
       break;
     case "cards":
-      MainPanel = <CardsOverview cards ={cards}/>;
+      MainPanel = <CardsOverview cards={cards} setCards={setCards} />;
       break;
     case "orders":
       MainPanel = <Store storeUrl={url} />;

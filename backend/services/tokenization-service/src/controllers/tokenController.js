@@ -26,8 +26,8 @@ const tokenizeCard = async (req, res) => {
       message: "Card tokenized successfully",
       
       token: newToken.token,
-      last4: newToken.cardLast4,
-      network: newToken.cardNetwork
+      cardLast4: newToken.cardLast4,
+      cardExpiry: newToken.expiryDate
     });
   } catch (err) {
     // console.error("Tokenization Error:", err);
