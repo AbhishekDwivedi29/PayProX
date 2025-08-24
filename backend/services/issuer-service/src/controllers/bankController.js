@@ -48,7 +48,6 @@ if (response.data.exists) {
 exports.debitAccount = async (req, res) => {
   try {
     const { merchantAmount, customerId, description, cardMeta, netbanking } = req.body;
-  
 
     if (!merchantAmount || !(cardMeta || netbanking)) {
         // console.error("Missing required fields:", { amount, cardMeta, netbanking });
@@ -80,11 +79,11 @@ exports.debitAccount = async (req, res) => {
     if (!account) {
       return res.status(404).json({ message: "Customer bank account not found" });
     }
-    if (account.balance < amount) {
+    if (account.balance < merchantAmount) {
       return res.status(400).json({ message: "Insufficient balance" });
     }
 
-    account.balance -= amount;
+    account.balance -= merchantAmount;
     account.lastUpdated = Date.now();
     await account.save();
 

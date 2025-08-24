@@ -4,7 +4,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center px-6 gap-6 text-sm">
         <span className="text-center md:text-left">
           &copy; {new Date().getFullYear()}{" "}
-          <span className="font-bold text-blue-600">ShopifyX</span> — Built with ❤️ for bold ideas.
+          <span className="font-bold text-blue-600">ShopifyX</span> — Crafting bold ideas.
         </span>
         <nav className="flex flex-wrap gap-4 justify-center md:justify-end">
           <a href="#" className="hover:text-blue-600 transition duration-200 ease-in-out">Privacy</a>

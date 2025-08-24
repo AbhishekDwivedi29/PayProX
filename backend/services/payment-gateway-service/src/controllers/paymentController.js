@@ -84,7 +84,7 @@ const initiatePayment = async (req, res) => {
 
     const status = acqRes.data.status;
 
-    
+
     // Save transaction
     await Transaction.create({
       merchantId,
@@ -103,7 +103,7 @@ const initiatePayment = async (req, res) => {
       } : {}),
       createdAt: new Date()
     });
-    console.log("Transaction saved");
+    // console.log("Transaction saved");
     res.json({ message: "Payment processed", status,  });
 
   } catch (err) {
