@@ -2,7 +2,7 @@ const axios = require("axios");
 const Transaction = require("../models/Transaction");
 
 const initiatePayment = async (req, res) => {
-  console.log("Initiating payment...");
+  
   try {
    
     const { method, merchantId, amount, currency, token, netbanking } = req.body.payload;
@@ -63,11 +63,10 @@ const initiatePayment = async (req, res) => {
       }
     );
     if (riskRes.data.status === "REJECTED") {
-      console.error("Risk engine blocked payment:", riskRes.data.reason);
+      // console.error("Risk engine blocked payment:", riskRes.data.reason);
       return res.status(403).json({ message: "Blocked by Risk Engine", reason: riskRes.data.reason });
     }
 
-    console.log("Risk engine approved payment");
 
     // Call acquirer service (as before)
     const acqRes = await axios.post(
@@ -84,7 +83,7 @@ const initiatePayment = async (req, res) => {
     );
 
     const status = acqRes.data.status;
-
+    console.log("Acquirer processed payment with status:", status );
     // Save transaction
     await Transaction.create({
       merchantId,
