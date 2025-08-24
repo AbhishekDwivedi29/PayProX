@@ -63,9 +63,11 @@ const initiatePayment = async (req, res) => {
       }
     );
     if (riskRes.data.status === "REJECTED") {
+      console.error("Risk engine blocked payment:", riskRes.data.reason);
       return res.status(403).json({ message: "Blocked by Risk Engine", reason: riskRes.data.reason });
     }
 
+    console.log("Risk engine approved payment");
 
     // Call acquirer service (as before)
     const acqRes = await axios.post(
