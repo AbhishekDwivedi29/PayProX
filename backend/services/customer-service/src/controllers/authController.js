@@ -143,6 +143,7 @@ exports.fetchCards = async (req, res) => {
       cardExpiry: tokenRes.data.cardExpiry
     });
   } catch (err) {
+     console.error("Error tokenizing card:", err?.response?.data || err.message);
     res.status(500).json({ message: "Failed to tokenize card" });
   }
 };
