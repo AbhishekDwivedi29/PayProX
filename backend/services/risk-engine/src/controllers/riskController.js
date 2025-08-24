@@ -62,9 +62,10 @@ exports.assessRisk = async (req, res) => {
       return res.json({ status: "REJECTED", reason: "Too many transactions for this customer in 1 min" });
     }
 
-    // All checks passed
+   
     return res.json({ status: "APPROVED" });
   } catch (err) {
+    console.error("Risk engine error:", err);
     res.status(500).json({ status: "REJECTED", reason: "Risk engine error" });
   }
 };
