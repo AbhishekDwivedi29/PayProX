@@ -87,7 +87,7 @@ const runT2Settlement = async (req,res) => {
       return res.status(200).json({ message: `${unsettledTxns.length} transactions found for settlement.` });
 
   } catch (err) {
-    // console.error(" Settlement Job Error:", err.message);
+    console.error(" Settlement Job Error:", err.message);
   }
 };
 
