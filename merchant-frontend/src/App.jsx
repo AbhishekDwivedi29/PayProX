@@ -7,7 +7,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<ProductPage />} />
-        <Route path="/merchant/:merchantId" element={<ProductPage />} />
+        <Route path="/merchant" element={<ProductPage />} />
          <Route path="/order-complete" element={<OrderComplete/>} />
       </Routes>
     </BrowserRouter>
