@@ -22,31 +22,38 @@ setInterval(() => {
   for (const sid in sessions) {
     if (sessions[sid].expiresAt < now) delete sessions[sid];
   }
-}, 60 * 1000); // clean every 1 min
+}, 60 * 1000); 
 
 
 router.post("/create", (req, res) => {
-  const { orderId, merchantId, amount, currency, items } = req.body;
+  try {
+    const { orderId, merchantId, amount, currency, items } = req.body;
 
+    if (!orderId || !merchantId || !amount || !currency) {
+      return res.status(400).json({ message: "Missing fields" });
+    }
 
+    const sessionId = uuidv4();
 
-  if (!orderId || !merchantId || !amount || !currency)
-    return res.status(400).json({ message: "Missing fields" });
+    sessions[sessionId] = {
+      sessionId,
+      orderId,
+      merchantId,
+      amount,
+      currency,
+      items: items || [],
+      createdAt: Date.now(),
+      expiresAt: Date.now() + SESSION_LIFETIME
+    };
 
-  const sessionId = uuidv4();
-
-  sessions[sessionId] = {
-    sessionId,
-    orderId,
-    merchantId,
-    amount,
-    currency,
-    items: items || [],
-    createdAt: Date.now(),
-    expiresAt: Date.now() + SESSION_LIFETIME
-  };
-
-  res.status(201).json({ sessionId, expiresAt: sessions[sessionId].expiresAt });
+    res.status(201).json({
+      sessionId,
+      expiresAt: sessions[sessionId].expiresAt
+    });
+  } catch (err) {
+    console.error("Error creating session:", err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 
