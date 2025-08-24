@@ -158,7 +158,7 @@ const approveRefund = async (req, res) => {
    
     res.status(response.status).json(response.data);
   } catch (err) {
-    // console.error("Refund approve error:", err?.response?.data || err.message);
+    console.error("Refund approve error:", err?.response?.data || err.message);
     res.status(err.response?.status || 500).json({ message: err.response?.data?.message || "Server error" });
   }
 };
@@ -186,7 +186,7 @@ const rejectRefund = async (req, res) => {
     );
     res.status(response.status).json(response.data);
   } catch (err) {
-    // console.error("Refund reject error:", err?.response?.data || err.message);
+    console.error("Refund reject error:", err?.response?.data || err.message);
     res.status(err.response?.status || 500).json({ message: err.response?.data?.message || "Server error" });
   }
 };
