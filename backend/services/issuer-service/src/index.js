@@ -18,7 +18,6 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
-
 app.get("/", (req, res) => {
   res.send("🧑‍💻 issuer Service Ready");
 });

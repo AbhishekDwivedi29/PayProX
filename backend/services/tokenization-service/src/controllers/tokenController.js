@@ -30,7 +30,7 @@ const tokenizeCard = async (req, res) => {
       cardExpiry: newToken.expiryDate
     });
   } catch (err) {
-    // console.error("Tokenization Error:", err);
+    console.error("Tokenization Error:", err);
     res.status(500).json({ message: "Server error" });
   }
 };
