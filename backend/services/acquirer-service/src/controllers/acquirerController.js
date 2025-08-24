@@ -57,7 +57,7 @@ exports.processPayment = async (req, res) => {
     return res.status(400).json({ status: "DECLINED", reason: "Unknown payment method" });
   }
 } catch (err) {
-  // console.error("Issuer service error:", err?.response?.data || err.message);
+  console.error("Issuer service error:", err?.response?.data || err.message);
   return res.status(500).json({
     status: "DECLINED",
     reason: "Issuer service error",
@@ -78,6 +78,7 @@ exports.processPayment = async (req, res) => {
       return res.json({ status: "DECLINED", reason: issuerRes.data.reason || "Issuer declined" });
     }
   } catch (err) {
+    console.error("Acquirer service error:", err?.response?.data || err.message);
     return res.json({ status: "DECLINED", reason: err?.response?.data?.reason || "Error in acquirer" });
   }
 };

@@ -83,7 +83,8 @@ const initiatePayment = async (req, res) => {
     );
 
     const status = acqRes.data.status;
-    console.log("Acquirer processed payment with status:", status );
+
+    
     // Save transaction
     await Transaction.create({
       merchantId,
