@@ -2,6 +2,7 @@ const axios = require("axios");
 const Transaction = require("../models/Transaction");
 
 const initiatePayment = async (req, res) => {
+  console.log("Initiating payment...");
   try {
    
     const { method, merchantId, amount, currency, token, netbanking } = req.body.payload;
@@ -100,7 +101,7 @@ const initiatePayment = async (req, res) => {
       } : {}),
       createdAt: new Date()
     });
-
+    console.log("Transaction saved");
     res.json({ message: "Payment processed", status,  });
 
   } catch (err) {
