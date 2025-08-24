@@ -6,6 +6,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<ProductPage />} />
         <Route path="/:merchantId" element={<ProductPage />} />
          <Route path="/order-complete" element={<OrderComplete/>} />
       </Routes>
