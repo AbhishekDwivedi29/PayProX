@@ -25,7 +25,7 @@ const approveRefund = async (req, res) => {
     
     res.json({ message: "Refund approved", refund });
   } catch (err) {
-    // console.error(" Refund approve failed:", err.message);
+    console.error(" Refund approve failed:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -54,7 +54,7 @@ const rejectRefund = async (req, res) => {
     
     res.json({ message: "Refund rejected", refund });
   } catch (err) {
-    // console.error("Refund reject failed:", err.message);
+    console.error("Refund reject failed:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
@@ -134,7 +134,7 @@ const executeRefund = async (req, res) => {
 
     res.json({ message: "Refund executed (bank transfer simulated)", refund });
   } catch (err) {
-    // console.error("Refund execution error:", err.message);
+    console.error("Refund execution error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };
