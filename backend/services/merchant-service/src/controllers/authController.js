@@ -135,7 +135,7 @@ const order =  async (req, res) => {
       sessionUrl: `${process.env.Merchant_URL}/customer/pay?sessionId=${sessionRes.data.sessionId}`
     });
   } catch (err) {
-    // console.error("Order create error:", err.message);
+    console.error("Order create error:", err.message);
     res.status(500).json({ message: "Failed to create order" });
   }
 };
