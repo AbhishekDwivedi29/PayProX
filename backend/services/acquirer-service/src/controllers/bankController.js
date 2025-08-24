@@ -88,7 +88,7 @@ exports.createBankAccount = async (req, res) => {
       account: newAccount
     });
   } catch (err) {
-    // console.error(" Bank account creation failed:", err);
+    console.error(" Bank account creation failed:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
@@ -136,7 +136,7 @@ exports.updateBankAccount = async (req, res) => {
       account: updatedAccount
     });
   } catch (err) {
-    // console.error(" Failed to update bank account:", err);
+    console.error(" Failed to update bank account:", err);
     res.status(500).json({ message: "Internal server error" });
   }
 };
