@@ -126,10 +126,10 @@ const order =  async (req, res) => {
       orderId, merchantId, amount, currency, items, status: "CREATED"
     };
 
-    // const sessionRes = await axios.post(
-    //   `${process.env.PAYMENT_GATEWAY_URL}/session/create`,
-    //   { orderId, merchantId, amount, currency, items }
-    // );
+    const sessionRes = await axios.post(
+      `${process.env.PAYMENT_GATEWAY_URL}/session/create`,
+      { orderId, merchantId, amount, currency, items }
+    );
 
   //  console.log(`${process.env.Merchant_URL}/customer/pay?sessionId=${sessionRes.data.sessionId}`);
     res.json({
@@ -158,10 +158,10 @@ try{
 
   
 
-    //  const response = await axios.post(
-    //   `${process.env.Settlement_Engine_URL}/run`,
-    //      { merchantId: readableMerchantId }
-    //      );
+     const response = await axios.post(
+      `${process.env.Settlement_Engine_URL}/run`,
+         { merchantId: readableMerchantId }
+         );
 
     return res.status(200).json({ message: "Settlement job triggered", settlements: response.data || [] });
   

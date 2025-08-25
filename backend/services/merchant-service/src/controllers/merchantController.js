@@ -25,11 +25,11 @@ const createBankAccount = async (req, res) => {
       lastUpdated: { type: Date, default: Date.now }
     };
 
-    // const response = await axios.post(`${process.env.ACQUIRER_SERVICE_URL}/bank/create`, payload, {
-    //   headers: {
-    //     "x-internal-secret": process.env.INTERNAL_SECRET_ACQUIRER // Optional auth header
-    //   }
-    // });
+    const response = await axios.post(`${process.env.ACQUIRER_SERVICE_URL}/bank/create`, payload, {
+      headers: {
+        "x-internal-secret": process.env.INTERNAL_SECRET_ACQUIRER // Optional auth header
+      }
+    });
 
    
     
@@ -83,15 +83,15 @@ const updateBankAccount = async (req, res) => {
 
    
 
-    // const response = await axios.put(
-    //   `${process.env.ACQUIRER_SERVICE_URL}/bank/update`,
-    //   payload,
-    //   {
-    //     headers: {
-    //       "x-internal-secret": process.env.INTERNAL_SECRET_ACQUIRER
-    //     }
-    //   }
-    // );
+    const response = await axios.put(
+      `${process.env.ACQUIRER_SERVICE_URL}/bank/update`,
+      payload,
+      {
+        headers: {
+          "x-internal-secret": process.env.INTERNAL_SECRET_ACQUIRER
+        }
+      }
+    );
 
 
     merchant.bankAccount = {
@@ -125,9 +125,9 @@ const refund = async (req, res) => {
 
     const readableMerchantId = merchant.merchantId;
 
-    // const response = await axios.get(
-    //   `${process.env.PAYMENT_GATEWAY_URL}/refunds/merchant/${readableMerchantId}`
-    // );
+    const response = await axios.get(
+      `${process.env.PAYMENT_GATEWAY_URL}/refunds/merchant/${readableMerchantId}`
+    );
 
     
     res.json(response.data);
@@ -153,17 +153,17 @@ const approveRefund = async (req, res) => {
     const readableMerchantId = merchant.merchantId; 
 
 
-    // const response = await axios.put(
-    //   `${process.env.PAYMENT_GATEWAY_URL}/refunds/${refundId}/approve`,
-    //   { merchantId: readableMerchantId }, 
-    //   { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
-    // );
-    //   console.log("Bank Info Fetch Success:/apptove");
+    const response = await axios.put(
+      `${process.env.PAYMENT_GATEWAY_URL}/refunds/${refundId}/approve`,
+      { merchantId: readableMerchantId }, 
+      { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
+    );
+      console.log("Bank Info Fetch Success:/apptove");
 
 
-    //  const executeResponse = await axios.post(
-    //         `${process.env.PAYMENT_GATEWAY_URL}/refunds/execute/${refundId}`,
-    //     );
+     const executeResponse = await axios.post(
+            `${process.env.PAYMENT_GATEWAY_URL}/refunds/execute/${refundId}`,
+        );
 
     
    
@@ -191,11 +191,11 @@ const rejectRefund = async (req, res) => {
     const readableMerchantId = merchant.merchantId; 
  
 
-    // const response = await axios.put(
-    //   `${process.env.PAYMENT_GATEWAY_URL}/refunds/${refundId}/reject`,
-    //   { merchantId: readableMerchantId, failReason },
-    //   { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
-    // );
+    const response = await axios.put(
+      `${process.env.PAYMENT_GATEWAY_URL}/refunds/${refundId}/reject`,
+      { merchantId: readableMerchantId, failReason },
+      { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
+    );
 
     res.status(response.status).json(response.data);
   } catch (err) {
@@ -217,9 +217,9 @@ const transaction = async (req, res) => {
 
     const readableMerchantId = merchant.merchantId;
 
-    // const response = await axios.get(
-    //   `${process.env.PAYMENT_GATEWAY_URL}/internal/transactions/by-merchant/${readableMerchantId}`
-    // );
+    const response = await axios.get(
+      `${process.env.PAYMENT_GATEWAY_URL}/internal/transactions/by-merchant/${readableMerchantId}`
+    );
 
 
     res.json({ transactions: response.data.transactions });
@@ -242,9 +242,9 @@ const Settlement = async (req, res) => {
 
     const readableMerchantId = merchant.merchantId; 
 
-    // const response = await axios.get(
-    //   `${process.env.SETTLEMENT_SERVICE_URL}/settlements/${readableMerchantId}`
-    // );
+    const response = await axios.get(
+      `${process.env.SETTLEMENT_SERVICE_URL}/settlements/${readableMerchantId}`
+    );
 
     res.json(response.data);
   } catch (err) {
