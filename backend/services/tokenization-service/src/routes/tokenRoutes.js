@@ -11,4 +11,3 @@ router.get("/:customerId", getTokensByCustomerId);
 
 
 module.exports = router;
-
