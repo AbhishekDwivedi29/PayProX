@@ -38,7 +38,7 @@ if (response.data.exists) {
 
     res.json({ message: "Account credited", account });
   } catch (err) {
-    // console.error("Account credit error:", err.message);
+    console.error("Account credit error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };

@@ -11,6 +11,7 @@ const verifyMerchant = require("../middleware/verifyToken");
 router.get("/bank-info", verifyMerchant, async (req, res) => {
   try {
 
+
     const objectId = req.merchant.merchantId;
     const merchant = await Merchant.findById(objectId);
     if (!merchant) {
@@ -18,10 +19,10 @@ router.get("/bank-info", verifyMerchant, async (req, res) => {
     }
     const MerchantId = merchant.merchantId;
 
-    const response = await axios.get(
-      `${process.env.ACQUIRER_SERVICE_URL}/acquirer/internal/${MerchantId}`
-    );
-    console.log("Bank Info Fetch Success:/bankinfo");
+    // const response = await axios.get(
+    //   `${process.env.ACQUIRER_SERVICE_URL}/acquirer/internal/${MerchantId}`
+    // );
+
     res.json({ bankAmount: response.data.bankAmount });
   } catch (err) {
     // console.error(" Bank Info Fetch Error:",err.response?.data || err.message);
@@ -37,6 +38,7 @@ router.put("/website", verifyMerchant, async (req, res) => {
  const merchantID = req.merchant.merchantId;
 
   try {
+        
     const merchant = await Merchant.findById(merchantID);
     if (!merchant ) {
       return res.status(404).json({ message: "merchant not found" });

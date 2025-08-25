@@ -6,6 +6,7 @@ const { v4: uuidv4 } = require("uuid");
 
 const register = async (req, res) => {
   try {
+   
     const { businessName, ownerName, email, contactNumber, password , merchantId} = req.body;
 
     const existingEmail = await Merchant.findOne({ email });
@@ -56,6 +57,7 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+      
     const { email, password } = req.body;
 
     const merchant = await Merchant.findOne({ email });
@@ -99,6 +101,7 @@ const login = async (req, res) => {
 
 const me = async (req, res) => {
   try {
+
     const merchant = await Merchant.findById(req.merchant.merchantId).select("-password");
     if (!merchant) {
       return res.status(404).json({ message: "Merchant not found" });
@@ -123,11 +126,11 @@ const order =  async (req, res) => {
       orderId, merchantId, amount, currency, items, status: "CREATED"
     };
 
-    const sessionRes = await axios.post(
-      `${process.env.PAYMENT_GATEWAY_URL}/session/create`,
-      { orderId, merchantId, amount, currency, items }
-    );
-    console.log("Bank Info Fetch Success:/order");
+    // const sessionRes = await axios.post(
+    //   `${process.env.PAYMENT_GATEWAY_URL}/session/create`,
+    //   { orderId, merchantId, amount, currency, items }
+    // );
+
   //  console.log(`${process.env.Merchant_URL}/customer/pay?sessionId=${sessionRes.data.sessionId}`);
     res.json({
       orderId,
@@ -143,6 +146,7 @@ const order =  async (req, res) => {
 
 const settlementRun = async (req, res) => {
 try{
+
   const merchantId=req.merchant.merchantId
 
  const merchant = await Merchant.findById(merchantId);
@@ -154,12 +158,11 @@ try{
 
   
 
-     const response = await axios.post(
-      `${process.env.Settlement_Engine_URL}/run`,
-         { merchantId: readableMerchantId }
-         );
-   console.log("Bank Info Fetch Success:/settlement");
-    
+    //  const response = await axios.post(
+    //   `${process.env.Settlement_Engine_URL}/run`,
+    //      { merchantId: readableMerchantId }
+    //      );
+
     return res.status(200).json({ message: "Settlement job triggered", settlements: response.data || [] });
   
     }catch (err) {
