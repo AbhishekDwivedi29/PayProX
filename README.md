@@ -335,8 +335,6 @@ This PAYMENT-GATEWAY system is a microservice-based backend architecture designe
 Built with production-grade practices, it enforces credential hygiene, fraud prevention, and service isolation. Each service is independently deployable and communicates via secure REST APIs, making the system cloud-ready and audit-friendly.
 
 
-Absolutely, Abhishek. Here's a clean, professional *Author* section you can drop directly into your README.md to reflect your role and technical identity:
-
 ---
 
 ## 👨‍💻 Author
