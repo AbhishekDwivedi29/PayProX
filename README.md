@@ -291,3 +291,67 @@ The Settlement Engine automates reconciliation for successful transactions, ensu
 - *Render* – Deploys backend services  
 - *Vercel* – Hosts frontend
 
+
+
+---
+
+## 🔐 Security Highlights
+
+The PAYMENT-GATEWAY system enforces production-grade security across all services, ensuring safe data handling, credential hygiene, and fraud prevention.
+
+---
+
+### 🛡 Authentication & Access Control
+- *JWT-based Auth* for customers and merchants  
+- *Role Isolation* between merchant and customer flows  
+- *Internal Auth Headers* (token, secret) for secure service-to-service communication
+
+---
+
+### 💳 Credential Hygiene
+- *Tokenization Service* replaces raw card data with secure, non-reversible tokens  
+- *Card Metadata Isolation* stores only cardLast4 and cardNetwork—never full card numbers  
+- *No Raw Card Storage* anywhere in the system
+
+---
+
+### ⚠ Fraud Detection
+- *Risk Engine* evaluates velocity, blacklist status, and transaction thresholds  
+- *Auto-Blocking* of suspicious transactions before issuer/acquirer involvement  
+
+
+---
+
+### 🔁 Refund & Settlement Safety
+- *Refund Execution Logic* checks if the original transaction is settled  
+- *Merchant Debit* via Acquirer Bank only if transaction is settled  
+- *Secure Issuer Credit* to customer account with internal authentication  
+- *Settlement Isolation* ensures only successful, un-settled transactions are processed
+
+## 📘 Project Summary
+
+This PAYMENT-GATEWAY system is a microservice-based backend architecture designed for secure, scalable, and traceable transaction processing. It handles the full lifecycle of payments—from order creation and session management to risk assessment, fund movement, refunds, and settlements.
+
+Built with production-grade practices, it enforces credential hygiene, fraud prevention, and service isolation. Each service is independently deployable and communicates via secure REST APIs, making the system cloud-ready and audit-friendly.
+
+
+Absolutely, Abhishek. Here's a clean, professional *Author* section you can drop directly into your README.md to reflect your role and technical identity:
+
+---
+
+## 👨‍💻 Author
+
+*Abhishek Dwivedi*  
+Backend Architect | Microservices Specialist | Payment Systems Debugger
+
+
+- Building microservice-based systems with secure, traceable APIs  
+- Diagnosing cross-service issues, rate limits, and resource exhaustion  
+- Implementing health checks, logging, and observability for reliability  
+- Writing recruiter-ready documentation that mirrors real-world behavior  
+- Enforcing credential hygiene and auditability across payment flows  
+- Debugging tokenization, refunds, and settlements with surgical clarity  
+
+
+
+> Connect  on [LinkedIn](#) or explore more on [GitHub](#).
