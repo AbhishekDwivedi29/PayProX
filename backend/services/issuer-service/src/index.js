@@ -18,6 +18,12 @@ app.use(cors());
 app.use(helmet());
 app.use(express.json());
 
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
+  next();
+});
+
+
 app.get("/", (req, res) => {
   res.send("🧑‍💻 issuer Service Ready");
 });
