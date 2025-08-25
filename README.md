@@ -20,7 +20,14 @@ Key features include:
 
 Whether you're a recruiter reviewing backend craftsmanship or a developer exploring scalable payment architecture, this project demonstrates how to build secure, traceable, and maintainable systems from the ground up.
 
+## 🧩 Microservices Overview
 
+This system is composed of independently deployable microservices, each responsible for a specific domain in the payment lifecycle. Services communicate via secure REST APIs and are designed for scalability, traceability, and auditability.
+
+
+## 🏦 Acquirer Bank Service –
+ Description The Acquirer Bank Service is responsible for handling merchant-side financial operations within the payment gateway ecosystem. It processes incoming payment requests from merchants, manages their bank accounts, and provides internal balance checks for transaction orchestration. This service plays a critical role in ensuring that merchants can initiate payments securely, maintain accurate account balances, and interact seamlessly with other backend services like the payment gateway, settlement engine, and risk engine. All internal operations—such as crediting, debiting, and account creation—are protected via internal authentication middleware to ensure secure service-to-service communication.
+ 
 ## 🏗 Architecture
 
 The *PAYMENT-GATEWAY* system follows a modular, service-oriented architecture where each component handles a distinct phase of the transaction lifecycle. Services communicate via RESTful APIs and are secured using internal authentication headers. This design ensures scalability, traceability, and clean separation of concerns.
@@ -147,7 +154,6 @@ Refunds in the PAYMENT-GATEWAY system are initiated by customers through the *Pa
 - Metadata includes refund ID, transaction ID, amount, method, and timestamps.
 - The original transaction is updated to reflect refund status.
 
----
 
 ### 💰 Settlement Lifecycle (Stepwise Flow)
 
@@ -200,11 +206,34 @@ The Settlement Engine automates reconciliation for successful transactions, ensu
 - Includes merchant ID, transaction IDs, total amount, and count.
 
 
-
-
 ---
 
 #### ✅ Step 6: Mark Transactions as Settled
 - Iterates through each transaction and updates its status.
 - Ensures no duplicate settlements occur.
+
+
+
+## ⚙ Tech Stack
+
+### 🧱 Backend
+- *Node.js + Express* – Core framework for all microservices  
+- *MongoDB* – Stores transactions, settlements, refunds, and user data  
+- *uuidv4* – Generates unique IDs for orders and sessions  
+
+### 🔐 Security
+- *JWT* – Authenticates customers and merchants  
+- *Internal Auth Headers* – Secures service-to-service communication  
+- *Tokenization Service* – Replaces raw card data with secure tokens  
+
+### 🔄 Inter-Service Communication
+- *Axios* – Handles REST API calls between services  
+- *RESTful APIs* – Each service exposes isolated endpoints  
+
+
+
+### ⚙ Config & Deployment
+- *dotenv* – Manages environment variables  
+- *Render* – Deploys backend services  
+- *Vercel* – Hosts frontend
 
