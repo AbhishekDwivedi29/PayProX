@@ -25,9 +25,63 @@ Whether you're a recruiter reviewing backend craftsmanship or a developer explor
 This system is composed of independently deployable microservices, each responsible for a specific domain in the payment lifecycle. Services communicate via secure REST APIs and are designed for scalability, traceability, and auditability.
 
 
-## 🏦 Acquirer Bank Service –
- Description The Acquirer Bank Service is responsible for handling merchant-side financial operations within the payment gateway ecosystem. It processes incoming payment requests from merchants, manages their bank accounts, and provides internal balance checks for transaction orchestration. This service plays a critical role in ensuring that merchants can initiate payments securely, maintain accurate account balances, and interact seamlessly with other backend services like the payment gateway, settlement engine, and risk engine. All internal operations—such as crediting, debiting, and account creation—are protected via internal authentication middleware to ensure secure service-to-service communication.
- 
+## 🏦 Acquirer Bank Service 
+The Acquirer Bank Service manages merchant financial operations in the payment gateway ecosystem. It processes payment requests, maintains bank accounts, and performs balance checks for transactions. 
+
+Internal operations like crediting, debiting, and account creation are secured with authentication middleware, ensuring safe interaction with the Payment Gateway, Settlement Engine, and Risk Engine.
+
+## 👤 Customer Service 
+The Customer Service is responsible for managing customer identity, payment data, and financial interactions. It provides secure endpoints for registration, login, card storage, bank account management, and refund requests. It also exposes internal APIs for service-to-service validation and orchestration.
+
+This service ensures that customer data is protected via token-based authentication and supports seamless integration with issuer, acquirer, and payment gateway services.
+
+## 🏦 Issuer Bank
+
+The Issuer Bank Service is responsible for handling customer-side financial operations, including account management and netbanking integration. It ensures secure debits and credits, supports credential-based login, and exposes internal APIs for balance checks and orchestration.
+
+All sensitive operations are protected via internal authentication middleware to ensure secure service-to-service communication.
+
+## 🛍 Merchant Service
+
+The Merchant Service is responsible for handling all merchant-side operations in the payment gateway ecosystem. It enables merchants to register, authenticate, create orders, manage their bank accounts, and track financial activity such as transactions, settlements, and refunds.
+
+This service plays a central role in the payment lifecycle by initiating orders, triggering settlement runs, and approving or rejecting refund requests. It integrates tightly with the Acquirer Bank Service to fetch real-time bank balances and supports secure internal communication using token-based authentication.
+
+Merchants can also update their website deployment status, which is useful for tracking onboarding progress or enabling production-ready features. All sensitive operations are protected via verifyToken middleware to ensure secure access and traceability.
+
+
+## 💳 Payment Gateway Service
+
+The Payment Gateway Service acts as the transaction router and orchestration layer within the PAYMENT-GATEWAY architecture. It coordinates payment initiation, session lifecycle, refund workflows, and tokenization of sensitive card data. This service is the entry point for customer-initiated payments and the backbone for merchant and bank-side transaction tracking.
+
+It supports secure customer authentication via JWT (verifyCustomerToken) and internal service-to-service communication via internalAuth. Sessions are created and managed in-memory with expiration logic, simulating real-world payment session lifecycles. Refunds are handled through a multi-step process involving customer requests, merchant approval, and final execution.
+
+The service also exposes internal APIs for transaction aggregation, settlement marking, and refund orchestration. Tokenization endpoints ensure that sensitive card data is never stored or transmitted in raw form, aligning with PCI-DSS principles.
+
+
+## ⚠  Risk Engine 
+
+The Risk Engine Service acts as a fraud prevention layer, analyzing transaction metadata to determine whether a payment should be approved, rejected, or flagged. It uses rule-based logic to detect anomalies based on merchant trustworthiness, payment method behavior, and customer activity velocity.
+
+This service is invoked during the payment flow to screen transactions before they reach the issuer bank, ensuring that high-risk activity is intercepted early. It maintains in-memory activity logs and dynamically updates blacklists based on velocity thresholds.
+
+
+## 🧾 Settlement Engine
+
+The Settlement Engine Service is responsible for identifying completed transactions, calculating settlement amounts, and crediting merchant bank accounts. It operates on a T+2 model, meaning transactions are settled two days after successful completion. This service ensures financial traceability, batch processing, and accurate ledger updates across the payment ecosystem.
+
+It communicates with the Payment Gateway to fetch eligible transactions, interacts with the Acquirer Bank Service to credit merchant accounts, and records settlement metadata for audit and reporting. All operations are protected via internal authentication headers to ensure secure service-to-service communication.
+
+
+
+##  🔐  Tokenization Service
+
+The Tokenization Service is a security-focused microservice that replaces raw card data with unique, non-reversible tokens. It ensures that sensitive payment information—such as card numbers—is never stored or transmitted in its original form, aligning with PCI-DSS principles and modern credential hygiene practices.
+
+This service is invoked during payment initiation and card storage flows. It generates tokens for new cards, verifies token authenticity, and retrieves token records by customer ID. By isolating token logic into a dedicated module, the system maintains modularity, auditability, and security across all transaction flows.
+  
+---
+
 ## 🏗 Architecture
 
 The *PAYMENT-GATEWAY* system follows a modular, service-oriented architecture where each component handles a distinct phase of the transaction lifecycle. Services communicate via RESTful APIs and are secured using internal authentication headers. This design ensures scalability, traceability, and clean separation of concerns.
