@@ -36,11 +36,6 @@ The *PAYMENT-GATEWAY* system follows a modular, service-oriented architecture wh
 - The order metadata includes merchantId, amount, currency, and items.
 - The Merchant Service then requests a session from the Payment Gateway to begin the payment flow.
 
-js
-Customer clicks "Buy Now"
-→ Merchant Service creates orderId
-→ Calls /session/create on Payment Gateway
-→ Returns sessionId and sessionUrl to merchant
 
 
 ---
@@ -50,10 +45,7 @@ Customer clicks "Buy Now"
 - Session metadata includes orderId, merchantId, amount, currency, and items.
 - Sessions are stored in-memory and cleaned up periodically.
 
-js
-POST /session/create
-→ Stores session in memory
-→ Returns sessionId and expiresAt
+
 
 
 ---
@@ -63,10 +55,7 @@ POST /session/create
 - Payload includes method (card or netbanking), merchantId, amount, currency, and either a card token or netbanking credentials.
 - The system validates the payload and extracts metadata.
 
-js
-POST /initiate
-→ Validates method and credentials
-→ Extracts card or netbanking metadata
+
 
 
 ---
@@ -75,9 +64,7 @@ POST /initiate
 - If the method is card, the token is verified via the Tokenization Service.
 - Metadata such as cardLast4 and cardNetwork is extracted.
 
-js
-GET /verify-token/:token
-→ Returns card metadata
+
 
 
 ---
@@ -86,10 +73,7 @@ GET /verify-token/:token
 - If the method is netbanking, credentials are verified via the Issuer Bank Service.
 - A valid sessionToken is required for authentication.
 
-js
-POST /api/bank/login
-→ Verifies netbanking credentials
-→ Returns sessionToken
+
 
 
 ---
@@ -99,10 +83,7 @@ POST /api/bank/login
 - The Risk Engine evaluates velocity, blacklists, and amount thresholds.
 - If rejected, the transaction is blocked.
 
-js
-POST /assess
-→ Evaluates risk
-→ Returns APPROVED or REJECTED
+
 
 
 ---
@@ -113,11 +94,7 @@ POST /assess
 - It then calls the Issuer Bank to debit the customer’s account based on the payment method.
 - If the Issuer confirms success, the transaction is marked as successful.
 
-js
-POST /api/acquirer/process
-→ Calculates fee and merchantAmount
-→ Calls Issuer /bank/debit with cardMeta or netbanking
-→ Returns status: SUCCESS or DECLINED
+
 
 
 ---
@@ -126,8 +103,108 @@ POST /api/acquirer/process
 - The transaction is saved to the database with full metadata.
 - Includes method-specific fields like cardLast4, cardNetwork, or netbankingUsername.
 
-js
-Transaction.create({...})
-→ Stores transaction record
-→ Returns final status to customer
+
+
+### 🔁 Refund Lifecycle (Stepwise Flow)
+
+Refunds in the PAYMENT-GATEWAY system are initiated by customers through the *Payment Gateway Service*, reviewed by merchants, and executed via the Issuer and Acquirer Bank Services. The flow ensures traceability, merchant control, and secure fund reversal—all within a single orchestrator.
+
+---
+
+#### 🧾 Step 1: Customer Requests Refund via Payment Gateway
+- The customer calls the Payment Gateway Service to initiate a refund for a specific transaction.
+- The gateway validates the request and creates a refund record with status PENDING.
+- No separate refund service is involved.
+
+
+
+---
+
+#### ✅ Step 2: Merchant Reviews & Approves/Rejects
+- The merchant views pending refunds via their dashboard.
+- They can approve or reject each request using:
+  - PUT /refunds/:refundId/approve
+  - PUT /refunds/:refundId/reject
+- Approved refunds proceed to execution.
+
+
+
+
+---
+
+#### 💸 Step 3: Refund Execution (Issuer Credit + Acquirer Debit if Settled)
+- The Payment Gateway checks if the original transaction is *settled*:
+  - If *not settled*, only the Issuer Bank is called to credit the customer.
+  - If *settled, the Acquirer Bank is also called to **debit the merchant*.
+- Internal authentication ensures secure service-to-service communication.
+
+
+
+---
+
+#### 🗃 Step 4: Refund Record Persistence
+- The refund transaction is logged in the database.
+- Metadata includes refund ID, transaction ID, amount, method, and timestamps.
+- The original transaction is updated to reflect refund status.
+
+---
+
+### 💰 Settlement Lifecycle (Stepwise Flow)
+
+The Settlement Engine automates reconciliation for successful transactions, ensuring merchants receive accurate payouts. As of now, the job is *manually triggered by the merchant* and processes all eligible transactions up to the current date. Future enhancements will support automated T+2 settlement scheduling.
+
+---
+
+#### 🧭 Step 1: Merchant Manually Triggers Settlement Run
+- The merchant initiates the settlement process by calling the /run endpoint on the Merchant Service.
+- This internally invokes the Settlement Engine with the merchant’s ID.
+- The job begins processing eligible transactions.
+
+
+
+
+---
+
+#### 📦 Step 2: Fetch Successful Transactions (Till-Date)
+- The Settlement Engine queries the Payment Gateway for all successful transactions up to the current timestamp.
+- Filters out already settled transactions.
+- Although the system is designed with T+2 logic in mind, it currently settles *all till-date transactions*.
+
+
+
+
+---
+
+#### 💸 Step 3: Calculate Settlement Amount
+- Aggregates total transaction value.
+- Converts amount from paise to rupees.
+- Prepares metadata for payout.
+
+
+
+
+---
+
+#### 🏦 Step 4: Credit Merchant Bank Account
+- Sends a credit request to the Acquirer Bank Service.
+- Includes merchant ID, amount, and description.
+- Uses internal authentication for secure transfer.
+
+
+
+
+---
+
+#### 🗃 Step 5: Record Settlement Metadata
+- Creates a settlement record in the database.
+- Includes merchant ID, transaction IDs, total amount, and count.
+
+
+
+
+---
+
+#### ✅ Step 6: Mark Transactions as Settled
+- Iterates through each transaction and updates its status.
+- Ensures no duplicate settlements occur.
 
