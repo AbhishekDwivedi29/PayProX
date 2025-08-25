@@ -29,6 +29,8 @@ const createBankAccount = async (req, res) => {
         "x-internal-secret": process.env.INTERNAL_SECRET_ACQUIRER // Optional auth header
       }
     });
+
+    console.log("Bank Info Fetch Success:/craetebanklo");
     
 
     merchant.bankAccount = {
@@ -88,6 +90,7 @@ const updateBankAccount = async (req, res) => {
         }
       }
     );
+    console.log("Bank Info Fetch Success:/bupafte");
 
     merchant.bankAccount = {
       accountHolderName: payload.accountHolderName ?? merchant.bankAccount.accountHolderName,
@@ -122,6 +125,8 @@ const refund = async (req, res) => {
     const response = await axios.get(
       `${process.env.PAYMENT_GATEWAY_URL}/refunds/merchant/${readableMerchantId}`
     );
+
+    console.log("Bank Info Fetch Success:/refund");
     res.json(response.data);
   } catch (err) {
     // console.error("Merchant refund fetch error:", err.message);
@@ -149,12 +154,14 @@ const approveRefund = async (req, res) => {
       { merchantId: readableMerchantId }, 
       { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
     );
-
+      console.log("Bank Info Fetch Success:/apptove");
 
 
      const executeResponse = await axios.post(
             `${process.env.PAYMENT_GATEWAY_URL}/refunds/execute/${refundId}`,
         );
+
+        console.log("Bank Info Fetch Success:/excute");
    
     res.status(response.status).json(response.data);
   } catch (err) {
@@ -184,6 +191,8 @@ const rejectRefund = async (req, res) => {
       { merchantId: readableMerchantId, failReason },
       { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
     );
+
+    console.log("Bank Info Fetch Success:/reject");
     res.status(response.status).json(response.data);
   } catch (err) {
     console.error("Refund reject error:", err?.response?.data || err.message);
@@ -206,6 +215,9 @@ const transaction = async (req, res) => {
     const response = await axios.get(
       `${process.env.PAYMENT_GATEWAY_URL}/internal/transactions/by-merchant/${readableMerchantId}`
     );
+
+
+    console.log("Bank Info Fetch Success:/transaction");
     res.json({ transactions: response.data.transactions });
   } catch (err) {
     // console.error(" Error fetching transactions:", err.message);
@@ -228,6 +240,7 @@ const Settlement = async (req, res) => {
     const response = await axios.get(
       `${process.env.SETTLEMENT_SERVICE_URL}/settlements/${readableMerchantId}`
     );
+    console.log("Bank Info Fetch Success:/settlement");
     res.json(response.data);
   } catch (err) {
     // console.error(" Settlement Fetch Error:", err.message);
@@ -245,3 +258,5 @@ module.exports = {
   updateBankAccount,
   Settlement
 };
+
+

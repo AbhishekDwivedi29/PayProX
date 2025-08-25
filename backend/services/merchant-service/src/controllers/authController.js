@@ -127,7 +127,7 @@ const order =  async (req, res) => {
       `${process.env.PAYMENT_GATEWAY_URL}/session/create`,
       { orderId, merchantId, amount, currency, items }
     );
-    
+    console.log("Bank Info Fetch Success:/order");
   //  console.log(`${process.env.Merchant_URL}/customer/pay?sessionId=${sessionRes.data.sessionId}`);
     res.json({
       orderId,
@@ -158,7 +158,7 @@ try{
       `${process.env.Settlement_Engine_URL}/run`,
          { merchantId: readableMerchantId }
          );
-
+   console.log("Bank Info Fetch Success:/settlement");
     
     return res.status(200).json({ message: "Settlement job triggered", settlements: response.data || [] });
   

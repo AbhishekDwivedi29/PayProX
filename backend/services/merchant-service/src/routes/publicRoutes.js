@@ -21,7 +21,7 @@ router.get("/bank-info", verifyMerchant, async (req, res) => {
     const response = await axios.get(
       `${process.env.ACQUIRER_SERVICE_URL}/acquirer/internal/${MerchantId}`
     );
-
+    console.log("Bank Info Fetch Success:/bankinfo");
     res.json({ bankAmount: response.data.bankAmount });
   } catch (err) {
     // console.error(" Bank Info Fetch Error:",err.response?.data || err.message);
