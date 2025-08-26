@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CustomerAuthProvider } from "./context/CustomerAuthContext";
-
+import { useEffect } from "react";
 // In App.jsx or your main router
 import HomePage from "./features/home/HomePage";
 
@@ -24,6 +24,52 @@ import CustomerRegisterPage from "./features/customerAuth/CustomerRegisterPage";
 const NotFound = () => <div className="text-center mt-12 text-xl">404 Not Found</div>;
 
 function App() {
+
+  useEffect(() => {
+    const services = [
+    import.meta.env.VITE_CUSTOMER_SERVICE_URL,
+    import.meta.env.VITE_TOKENIZATION_SERVICE_URL,
+    import.meta.env.VITE_ACQUIRER_SERVICE_URL,
+    import.meta.env.VITE_ISSUER_SERVICE_URL,
+    import.meta.env.VITE_SETTLEMENT_ENGINE_URL,
+    import.meta.env.VITE_RISK_ENGINE_URL,
+    import.meta.env.VITE_MERCHANT_SERVICE_URL,
+    import.meta.env.VITE_PAYMENT_GATEWAY_URL
+    ];
+
+    // 🔁 Retry helper function
+    const fetchWithRetry = async (url, retries = 2, delay = 2000) => {
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Status ${res.status}`);
+        return { url, status: res.status };
+      } catch (err) {
+        if (retries > 0) {
+          console.warn(`⚠ ${url} failed (${err.message}), retrying...`);
+          await new Promise(resolve => setTimeout(resolve, delay)); // wait before retry
+          return fetchWithRetry(url, retries - 1, delay); // retry again
+        } else {
+          throw { url, error: err.message };
+        }
+      }
+    };
+
+    // 🔄 Run all requests in parallel
+    Promise.allSettled(services.map(url => fetchWithRetry(url)))
+      .then(results => {
+        console.group("🔄 Warm-up Results");
+        results.forEach(result => {
+          if (result.status === "fulfilled") {
+            console.log( `${result.value.url} -> ${result.value.status}`);
+          } else {
+            console.error( `${result.reason.url} -> Failed (${result.reason.error})`);
+          }
+        });
+        console.groupEnd();
+      });
+  }, []);
+
+
   return (
     <AuthProvider>
       <CustomerAuthProvider>
