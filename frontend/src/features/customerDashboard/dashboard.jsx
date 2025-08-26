@@ -21,7 +21,7 @@ export default function CustomerDashboard() {
     cards: 0,
     bankBalance: 0
   });
-  const [cards ,setCards] =useState("");
+  const [cards ,setCards] =useState([]);
   const [selected, setSelected] = useState("summary");
   const navigate = useNavigate();
 
@@ -40,7 +40,7 @@ export default function CustomerDashboard() {
           headers: { Authorization: `Bearer ${token}` }
         })
       ]);
-      
+
         const txData = txRes.status === "fulfilled" ? txRes.value.data : { transactions: [] };
         const amountData = AmountRes.status === "fulfilled" ? AmountRes.value.data : { bankAmount: 0 };
         const cardData = cardRes.status === "fulfilled" ? cardRes.value.data.cards : { count: 0 };
