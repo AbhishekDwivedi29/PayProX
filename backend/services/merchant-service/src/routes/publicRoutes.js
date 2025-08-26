@@ -19,9 +19,9 @@ router.get("/bank-info", verifyMerchant, async (req, res) => {
     }
     const MerchantId = merchant.merchantId;
 
-    // const response = await axios.get(
-    //   `${process.env.ACQUIRER_SERVICE_URL}/acquirer/internal/${MerchantId}`
-    // );
+    const response = await axios.get(
+      `${process.env.ACQUIRER_SERVICE_URL}/acquirer/internal/${MerchantId}`
+    );
 
     res.json({ bankAmount: response.data.bankAmount });
   } catch (err) {

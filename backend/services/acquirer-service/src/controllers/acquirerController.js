@@ -95,7 +95,7 @@ exports.BankBalance = async (req, res) => {
 
     res.json({ bankAmount: account.balance });
   } catch(err) {
-    // console.error("Internal Fetch Error:", err.message);
+    console.error("Internal Fetch Error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };

@@ -38,7 +38,17 @@ function App() {
     import.meta.env.VITE_PAYMENT_GATEWAY_URL
     ];
 
-   
+   const extractServiceName = (url) => {
+  try {
+    const { hostname } = new URL(url); 
+    const parts = hostname.split('.');
+    const subdomain = parts[0]; 
+    const serviceName = subdomain.replace(/^api-/, '');
+    return serviceName;
+  } catch {
+    return "Unknown Service";
+  }
+};
     const fetchWithRetry = async (url, retries = 2, delay = 2000) => {
       try {
         const res = await fetch(url);
@@ -46,7 +56,8 @@ function App() {
         return { url, status: res.status };
       } catch (err) {
         if (retries > 0) {
-          console.warn(`⚠ ${url} failed (${err.message}), retrying...`);
+         const serviceName = extractServiceName(url);
+          console.warn(`⚠ ${serviceName}  failed (${err.message}), retrying...`);
           await new Promise(resolve => setTimeout(resolve, delay)); 
           return fetchWithRetry(url, retries - 1, delay); 
         } else {
@@ -56,14 +67,20 @@ function App() {
     };
 
 
+
+
+
+
+
     Promise.allSettled(services.map(url => fetchWithRetry(url)))
       .then(results => {
-        console.group("🔄 Warm-up Results");
-        results.forEach(result => {
+        console.group(" Warm-up Results");
+        results.forEach((result, index) => {
+          const serviceName = extractServiceName(services[index]);
           if (result.status === "fulfilled") {
-            // console.log( `${result.value.url} -> ${result.value.status}`);
+            console.log( `${serviceName} -> ${result.value.status}`);
           } else {
-            // console.error( `${result.reason.url} -> Failed (${result.reason.error})`);
+            console.error( `${serviceName}-> Failed (${result.reason.error})`);
           }
         });
         console.groupEnd();
