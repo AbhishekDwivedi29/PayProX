@@ -26,6 +26,7 @@ const NotFound = () => <div className="text-center mt-12 text-xl">404 Not Found<
 function App() {
 
   useEffect(() => {
+    console.log("frontend loaded"); 
     const services = [
     import.meta.env.VITE_CUSTOMER_SERVICE_URL,
     import.meta.env.VITE_TOKENIZATION_SERVICE_URL,
@@ -37,7 +38,7 @@ function App() {
     import.meta.env.VITE_PAYMENT_GATEWAY_URL
     ];
 
-    // 🔁 Retry helper function
+   
     const fetchWithRetry = async (url, retries = 2, delay = 2000) => {
       try {
         const res = await fetch(url);
@@ -46,23 +47,23 @@ function App() {
       } catch (err) {
         if (retries > 0) {
           console.warn(`⚠ ${url} failed (${err.message}), retrying...`);
-          await new Promise(resolve => setTimeout(resolve, delay)); // wait before retry
-          return fetchWithRetry(url, retries - 1, delay); // retry again
+          await new Promise(resolve => setTimeout(resolve, delay)); 
+          return fetchWithRetry(url, retries - 1, delay); 
         } else {
           throw { url, error: err.message };
         }
       }
     };
 
-    // 🔄 Run all requests in parallel
+
     Promise.allSettled(services.map(url => fetchWithRetry(url)))
       .then(results => {
         console.group("🔄 Warm-up Results");
         results.forEach(result => {
           if (result.status === "fulfilled") {
-            console.log( `${result.value.url} -> ${result.value.status}`);
+            // console.log( `${result.value.url} -> ${result.value.status}`);
           } else {
-            console.error( `${result.reason.url} -> Failed (${result.reason.error})`);
+            // console.error( `${result.reason.url} -> Failed (${result.reason.error})`);
           }
         });
         console.groupEnd();
