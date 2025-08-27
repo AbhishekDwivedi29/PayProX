@@ -11,7 +11,7 @@ router.get("/customers/:customerId/exists", internalAuth,
       }
       res.json({ exists: true, name: customer.name });
     } catch (err) {
-      // console.error("Customer lookup failed:", err.message);
+      console.error("Customer lookup failed:", err.message);
       res.status(500).json({ message: "Error checking customer" });
     }
   }

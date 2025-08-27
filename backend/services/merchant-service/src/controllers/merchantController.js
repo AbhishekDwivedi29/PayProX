@@ -158,7 +158,7 @@ const approveRefund = async (req, res) => {
       { merchantId: readableMerchantId }, 
       { headers: { "x-internal-token": process.env.INTERNAL_SECRET } }
     );
-      console.log("Bank Info Fetch Success:/apptove");
+    
 
 
      const executeResponse = await axios.post(

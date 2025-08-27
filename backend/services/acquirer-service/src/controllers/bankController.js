@@ -47,7 +47,7 @@ exports.debitAccount = async (req, res) => {
     res.json({ message: "Account debited", account });
 
   } catch (err) {
-    // console.error("Merchant account debit error:", err.message);
+    console.error("Merchant account debit error:", err.message);
     res.status(500).json({ message: "Server error" });
   }
 };

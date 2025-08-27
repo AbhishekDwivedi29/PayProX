@@ -5,14 +5,14 @@ A secure, scalable payment gateway ecosystem built with microservices and MongoD
 ##  Table of Contents
 1.   [ Deployment](#Deployment)
 2. [ Project Overview](#Overview) 
-3.  [ Microservices Overview](#Microservices Overview)  
+3.  [ Microservices Overview](#Microservices-Overview)  
 4. [ Architecture](#Architecture)  
    - Transaction Lifecycle  
    - Refund Lifecycle  
    - Settlement Lifecycle  
-5. [ Tech Stack](#Tech Stack)  
-6. [ Security Highlights](#Security Highlights)  
-7. [ Project Summary](#Project Summary)   
+5. [ Tech Stack](#Tech-Stack)  
+6. [ Security Highlights](#Security-Highlights)  
+7. [ Project Summary](#Project-Summary)   
 8. [ Author](#Author)
 
 
@@ -45,7 +45,7 @@ Key features include:
 
 Whether you're a recruiter reviewing backend craftsmanship or a developer exploring scalable payment architecture, this project demonstrates how to build secure, traceable, and maintainable systems from the ground up.
 
-##  Microservices Overview
+##  Microservices-Overview
 
 This system is composed of independently deployable microservices, each responsible for a specific domain in the payment lifecycle. Services communicate via secure REST APIs and are designed for scalability, traceability, and auditability.
 
@@ -291,7 +291,7 @@ The Settlement Engine automates reconciliation for successful transactions, ensu
 
 
 
-##  Tech Stack
+##  Tech-Stack
 
 ### Backend
 - *Node.js + Express* – Core framework for all microservices  
@@ -318,7 +318,7 @@ The Settlement Engine automates reconciliation for successful transactions, ensu
 
 ---
 
-##  Security Highlights
+##  Security-Highlights
 
 The PayProX enforces production-grade security across all services, ensuring safe data handling, credential hygiene, and fraud prevention.
 
@@ -351,7 +351,7 @@ The PayProX enforces production-grade security across all services, ensuring saf
 - *Secure Issuer Credit* to customer account with internal authentication  
 - *Settlement Isolation* ensures only successful, un-settled transactions are processed
 
-##  Project Summary
+##  Project-Summary
 
 This PayProX is a microservice-based backend architecture designed for secure, scalable, and traceable transaction processing. It handles the full lifecycle of payments—from order creation and session management to risk assessment, fund movement, refunds, and settlements.
 
@@ -365,8 +365,8 @@ Built with production-grade practices, it enforces credential hygiene, fraud pre
 *Abhishek Dwivedi*  
 
 Software Engineer focused on building secure, scalable systems with clean architecture and real-time capabilities. Skilled in backend development, REST APIs, microservices, and frontend integration.
-# Tech Stack: Node.js, Express.js, MongoDB, React.js, Zustand, Tailwind CSS
-# Tools: Git, GitHub, VSCode, Postman
+Tech Stack: Node.js, Express.js, MongoDB, React.js, Zustand, Tailwind CSS
+ Tools: Git, GitHub, VSCode, Postman
 
  
 
