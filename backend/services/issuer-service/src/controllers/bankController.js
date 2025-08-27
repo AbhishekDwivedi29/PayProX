@@ -5,20 +5,19 @@ const axios = require("axios");
 
 exports.creditAccount = async (req, res) => {
   const { customer, amount, description } = req.body;
-  console.log(req.body);
   if (!customer || !amount) return res.status(400).json({ message: "Missing fields" });
 
 
   const response = await axios.get(
   `${process.env.CUSTOMER_SERVICE_URL}/internal/customers/${customer}/exists`,
   {
-    headers: {
+    headers: { 
       "x-internal-token": process.env.CUSTOMER_INTERNAL_SECRET
     } 
   });
 
 
-console.log(response.data);
+
 let customerId = null;
 if (response.data.exists) {
   customerId = customer;
@@ -28,7 +27,7 @@ if (response.data.exists) {
 
   try {
     const account = await CustomerBankAccount.findOne({ customerId });
-     console.log(account);
+    
     if (!account) return res.status(404).json({ message: "Customer bank account not found" });
 
     account.balance += amount;
@@ -75,7 +74,7 @@ exports.debitAccount = async (req, res) => {
 
     const account = await CustomerBankAccount.findOne(lookup);
    
-    console.log(account);
+  
     if (!account) {
       return res.status(404).json({ message: "Customer bank account not found" });
     }

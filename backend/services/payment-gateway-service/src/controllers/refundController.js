@@ -116,7 +116,7 @@ const executeRefund = async (req, res) => {
         { headers: { "x-internal-secret": process.env.INTERNAL_SECRET } }
       );
     }
-       console.log("acquirer debited");
+  
     //step 2
     await axios.post(
       `${process.env.ISSUER_SERVICE_URL}/api/bank/credit`,
@@ -124,7 +124,7 @@ const executeRefund = async (req, res) => {
       { headers: { "x-internal-secret": process.env.ISSUER_INTERNAL_SECRET } }
     );
 
-    console.log("issuer credited ")
+  
    
     // Step 3
     refund.status = "COMPLETED";
