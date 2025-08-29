@@ -25,67 +25,67 @@ const NotFound = () => <div className="text-center mt-12 text-xl">404 Not Found<
 
 function App() {
 
-  useEffect(() => {
-    console.log("frontend loaded"); 
-    const services = [
-    import.meta.env.VITE_CUSTOMER_SERVICE_URL,
-    import.meta.env.VITE_TOKENIZATION_SERVICE_URL,
-    import.meta.env.VITE_ACQUIRER_SERVICE_URL,
-    import.meta.env.VITE_ISSUER_SERVICE_URL,
-    import.meta.env.VITE_SETTLEMENT_ENGINE_URL,
-    import.meta.env.VITE_RISK_ENGINE_URL,
-    import.meta.env.VITE_MERCHANT_SERVICE_URL,
-    import.meta.env.VITE_PAYMENT_GATEWAY_URL
-    ];
+//   useEffect(() => {
+//     console.log("frontend loaded"); 
+//     const services = [
+//     import.meta.env.VITE_CUSTOMER_SERVICE_URL,
+//     import.meta.env.VITE_TOKENIZATION_SERVICE_URL,
+//     import.meta.env.VITE_ACQUIRER_SERVICE_URL,
+//     import.meta.env.VITE_ISSUER_SERVICE_URL,
+//     import.meta.env.VITE_SETTLEMENT_ENGINE_URL,
+//     import.meta.env.VITE_RISK_ENGINE_URL,
+//     import.meta.env.VITE_MERCHANT_SERVICE_URL,
+//     import.meta.env.VITE_PAYMENT_GATEWAY_URL
+//     ];
 
-   const extractServiceName = (url) => {
-  try {
-    const { hostname } = new URL(url); 
-    const parts = hostname.split('.');
-    const subdomain = parts[0]; 
-    const serviceName = subdomain.replace(/^api-/, '');
-    return serviceName;
-  } catch {
-    return "Unknown Service";
-  }
-};
-    const fetchWithRetry = async (url, retries = 2, delay = 2000) => {
-      try {
-        const res = await fetch(url);
-        if (!res.ok) throw new Error(`Status ${res.status}`);
-        return { url, status: res.status };
-      } catch (err) {
-        if (retries > 0) {
-         const serviceName = extractServiceName(url);
-          console.warn(`⚠ ${serviceName}  failed (${err.message}), retrying...`);
-          await new Promise(resolve => setTimeout(resolve, delay)); 
-          return fetchWithRetry(url, retries - 1, delay); 
-        } else {
-          throw { url, error: err.message };
-        }
-      }
-    };
-
-
+//    const extractServiceName = (url) => {
+//   try {
+//     const { hostname } = new URL(url); 
+//     const parts = hostname.split('.');
+//     const subdomain = parts[0]; 
+//     const serviceName = subdomain.replace(/^api-/, '');
+//     return serviceName;
+//   } catch {
+//     return "Unknown Service";
+//   }
+// };
+    // const fetchWithRetry = async (url, retries = 2, delay = 2000) => {
+    //   try {
+    //     // const res = await fetch(url);
+    //     // if (!res.ok) throw new Error(`Status ${res.status}`);
+    //     return { url, status: res.status };
+    //   } catch (err) {
+    //     if (retries > 0) {
+    //      const serviceName = extractServiceName(url);
+    //       console.warn(`⚠ ${serviceName}  failed (${err.message}), retrying...`);
+    //       await new Promise(resolve => setTimeout(resolve, delay)); 
+    //       return fetchWithRetry(url, retries - 1, delay); 
+    //     } else {
+    //       throw { url, error: err.message };
+    //     }
+    //   }
+    // };
 
 
 
 
 
-    Promise.allSettled(services.map(url => fetchWithRetry(url)))
-      .then(results => {
-        console.group(" Warm-up Results");
-        results.forEach((result, index) => {
-          const serviceName = extractServiceName(services[index]);
-          if (result.status === "fulfilled") {
-            console.log( `${serviceName} -> ${result.value.status}`);
-          } else {
-            console.error( `${serviceName}-> Failed (${result.reason.error})`);
-          }
-        });
-        console.groupEnd();
-      });
-  }, []);
+
+
+  //   Promise.allSettled(services.map(url => fetchWithRetry(url)))
+  //     .then(results => {
+  //       console.group(" Warm-up Results");
+  //       results.forEach((result, index) => {
+  //         const serviceName = extractServiceName(services[index]);
+  //         if (result.status === "fulfilled") {
+  //           console.log( `${serviceName} -> ${result.value.status}`);
+  //         } else {
+  //           console.error( `${serviceName}-> Failed (${result.reason.error})`);
+  //         }
+  //       });
+  //       console.groupEnd();
+  //     });
+  // }, []);
 
 
   return (
