@@ -51,8 +51,8 @@ function App() {
 };
     const fetchWithRetry = async (url, retries = 2, delay = 2000) => {
       try {
-        // const res = await fetch(url);
-        // if (!res.ok) throw new Error(`Status ${res.status}`);
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(`Status ${res.status}`);
         return { url, status: res.status };
       } catch (err) {
         if (retries > 0) {
